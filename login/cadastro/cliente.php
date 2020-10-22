@@ -1,3 +1,29 @@
+<?php 
+	
+	require $_SERVER['DOCUMENT_ROOT'] . '/php/cliente.php';
+
+	$submit = $_POST['submit'] ?? null;
+	$aviso = '';
+	if(!is_null($submit)){
+		$pass = md5($_POST['pass']);
+		$repass = md5($_POST['repeat-pass']);
+		if($pass == $repass){
+			$email = $_POST['email'];
+			if(verificarEmail($email)){
+				$name = $_POST['name'];
+				cadastrarCliente($name, $email, $pass);
+				$aviso = "Cadastro efetuado!";
+			}
+			else{
+				$aviso = "Esse email já esta em uso!";
+			}
+		}
+		else{
+			$aviso = "As senhas não conferem!";
+		}
+	}
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -50,9 +76,12 @@
                 <div class="login100-more" style="background-image: url('images/bg-01.jpg');">
                 </div>
                 <div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
-                    <form class="login100-form validate-form">
+                    <form class="login100-form validate-form" method="post" action="#">
                         <span class="login100-form-title p-b-59">
                             Cadastre-se
+                        </span>
+                        <span style="color: red;">
+                        	<?=$aviso?>
                         </span>
                         <div class="wrap-input100 validate-input" data-validate="Preencha esse campo">
                             <span class="label-input100">
@@ -76,7 +105,7 @@
                             <span class="label-input100">
                                 Digite a senha
                             </span>
-                            <input class="input100" name="pass" placeholder="*************" type="text">
+                            <input class="input100" name="pass" placeholder="*************" type="password">
                                 <span class="focus-input100">
                                 </span>
                             </input>
@@ -85,30 +114,16 @@
                             <span class="label-input100">
                                 Repita a senha
                             </span>
-                            <input class="input100" name="repeat-pass" placeholder="*************" type="text">
+                            <input class="input100" name="repeat-pass" placeholder="*************" type="password">
                                 <span class="focus-input100">
                                 </span>
                             </input>
-                        </div>
-                        <div class="flex-m w-full p-b-33">
-                            <div class="contact100-form-checkbox">
-                                <input class="input-checkbox100" id="ckb1" name="remember-me" type="checkbox">
-                                    <label class="label-checkbox100" for="ckb1">
-                                        <span class="txt1">
-                                            Eu aceito
-                                            <a class="txt2 hov1" href="#">
-                                                Termos de uso
-                                            </a>
-                                        </span>
-                                    </label>
-                                </input>
-                            </div>
                         </div>
                         <div class="container-login100-form-btn">
                             <div class="wrap-login100-form-btn">
                                 <div class="login100-form-bgbtn">
                                 </div>
-                                <button class="login100-form-btn">
+                                <button type="submit" value="submit" name="submit" class="login100-form-btn">
                                     Cadastrar
                                 </button>
                             </div>

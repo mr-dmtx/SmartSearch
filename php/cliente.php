@@ -1,34 +1,39 @@
 <?php 
 
-	public function cadastrarCliente($name, $email, $pass)
+	function cadastrarCliente($name, $email, $pass)
 	{
-		$conexao = new PDO("sqlite:../bd/smart-search.db");
+		require $_SERVER['DOCUMENT_ROOT'] . '/bd/db.php';
 
 		$insert = "INSERT INTO usuario(nm_email, nm_usuario, cd_senha) values (:email, :name, :pass);";
 
-		$cmd = $conexao->prepare(':email', $email);
-		$cmd = $conexao->prepare(':name', $name);
-		$cmd = $conexao->prepare(':pass', $pass);
+		$cmd = $conexao->prepare($insert);
+		$cmd->bindParam(':name', $name);
+		$cmd->bindParam(':email', $email);
+		$cmd->bindParam(':pass', $pass);
 
-		$v = $cmd->execute();
+		$cmd->execute();
 
 	}
 
-	public function verificarEmail($email)
+	function verificarEmail($email)
 	{	
-		$conexao = new PDO("sqlite:../bd/smart-search.db");
+		try {
+			require $_SERVER['DOCUMENT_ROOT'] . '/bd/db.php';
 
-		$select = "SELECT nm_email FROM usuario WHERE nm_email = ':email'";
+			$select = 'SELECT nm_email FROM usuario WHERE nm_email = :email';
 
-		$cmd = $conexao->prepare($select);
+			$cmd = $conexao->prepare($select);
 
-		$cmd->bindParam(':email', $email);
+			$cmd->bindParam(':email', $email, PDO::PARAM_STR);
 
-		$v = $cmd->execute();
+			$cmd->execute();
 
-		$v = $cmd->fetch();
+			$v = $cmd->fetch();
 
-		return (!$v) ? true : false;
+			return (!$v) ? true : false;
 
-
+		} catch (PDOException $e) {
+			echo "Erro ao verificar email! " .$e->getMessage();
+		}
+		
 	}
