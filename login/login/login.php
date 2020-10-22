@@ -1,8 +1,40 @@
+<?php
+	
+	try {
+
+		session_start();
+
+		require $_SERVER['DOCUMENT_ROOT'] . '/php/cliente.php';
+
+		if(isset($_SESSION['logged'])){
+			header("location: ../login/login.php");
+		}
+
+		$submit = $_POST['submit'] ?? null;
+		$aviso = "";
+		if(!is_null($submit)){
+			$email = $_POST['email'];
+			$senha = $_POST['pass'];
+
+			if(loginCliente($email, md5($senha))){
+				$_SESSION['email'] = $email;
+				header("location: index.php");
+			}
+			else{
+				$aviso = "Email ou senha invalidos!";
+			}
+		}
+		
+	} catch (Throwable $e) {
+		$aviso = "Erro ao realizar autenticação!" . $e->getMessage(); 
+	}
+	
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <title>
-            Login V11
+            Login
         </title>
         <meta charset="utf-8">
             <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -39,9 +71,12 @@
         <div class="limiter">
             <div class="container-login100">
                 <div class="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
-                    <form class="login100-form validate-form">
+                    <form class="login100-form validate-form" action="#" method="post">
                         <span class="login100-form-title p-b-55">
                             Login
+                        </span>
+                        <span style="color: red; text-align: center;">
+                        	<?=$aviso?>
                         </span>
                         <div class="wrap-input100 validate-input m-b-16" data-validate="Valid email is required: ex@abc.xyz">
                             <input class="input100" name="email" placeholder="Email" type="text">
@@ -62,16 +97,16 @@
                                     </span>
                                 </span>
                             </input>
-                        </div>
+                        </div><!--
                         <div class="contact100-form-checkbox m-l-4">
                             <input class="input-checkbox100" id="ckb1" name="remember-me" type="checkbox">
                                 <label class="label-checkbox100" for="ckb1">
                                     Lembre-me
                                 </label>
                             </input>
-                        </div>
+                        </div>-->
                         <div class="container-login100-form-btn p-t-25">
-                            <button class="login100-form-btn">
+                            <button type="submit" name="submit" value="submit" class="login100-form-btn">
                                 Login
                             </button>
                         </div>

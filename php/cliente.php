@@ -13,9 +13,7 @@
 
 		$v = $cmd->execute();
 
-		if($v === TRUE){
-			login($email, $senha);
-		}
+		header("location: ../login/login.php");
 
 	}
 
@@ -45,6 +43,27 @@
 
 	function loginCliente($email, $senha){
 
+		try {
+			
+			require 'connection-database.php';
+
+			$select = "SELECT nm_email, cd_senha FROM usuario WHERE nm_email = ? and cd_senha = ? ";
+
+			$cmd = $conexao->prepare($select);
+
+			$cmd->bindParam(1, $email);
+			$cmd->bindParam(2, $senha);
+
+			$cmd->execute();
+
+			$v = $cmd->fetchAll();
+
+			return (count($v) == 1) ? true : false;
+
+
+		} catch (PDOException $e) {
+			echo "Erro reallizar login! " . $e->getMessage();
+		}
 
 
 	}

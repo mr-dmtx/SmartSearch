@@ -1,6 +1,12 @@
 <?php 
-	
+
+	session_start();
+
 	require $_SERVER['DOCUMENT_ROOT'] . '/php/cliente.php';
+
+	if(isset($_SESSION['logged'])){
+		header("location: ../login/login.php");
+	}
 
 	$submit = $_POST['submit'] ?? null;
 	$aviso = '';
