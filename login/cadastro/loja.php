@@ -68,7 +68,7 @@
                             <span class="label-input100">
                                 CNPJ
                             </span>
-                            <input class="input100" id="cnpj" name="cnpj" placeholder="Nome..." type="text">
+                            <input class="input100" id="cnpj" onblur="validarCNPJ(this.value)" name="cnpj" placeholder="CNPJ..." type="text">
                                 <span class="focus-input100">
                                 </span>
                             </input>
@@ -104,16 +104,16 @@
                             <span class="label-input100">
                                 CEP
                             </span>
-                            <input class="input100" id="cep" name="cep" placeholder="CEP..." type="text">
+                            <input class="input100" id="cep" name="cep" placeholder="CEP..." type="text" onblur="pesquisacep(this.value)">
                                 <span class="focus-input100">
                                 </span>
                             </input>
                         </div>
                         <div class="wrap-input100 validate-input" data-validate="Preencha esse campo">
                             <span class="label-input100">
-                                Endereço
+                                Rua
                             </span>
-                            <input class="input100" name="Endereço" placeholder="Endereço..." type="text">
+                            <input class="input100" name="rua" id="rua" placeholder="Rua..." type="text">
                                 <span class="focus-input100">
                                 </span>
                             </input>
@@ -122,7 +122,7 @@
                             <span class="label-input100">
                                 Nº
                             </span>
-                            <input class="input100" id="n" name="n" placeholder="Nº..." type="n">
+                            <input class="input100" id="n" name="numRua" placeholder="Nº..." type="text">
                                 <span class="focus-input100">
                                 </span>
                             </input>
@@ -131,7 +131,7 @@
                             <span class="label-input100">
                                 Cidade
                             </span>
-                            <input class="input100" name="cidade" placeholder="Cidade..." type="text">
+                            <input class="input100" name="cidade" id="cidade" placeholder="Cidade..." type="text">
                                 <span class="focus-input100">
                                 </span>
                             </input>
@@ -140,7 +140,7 @@
                             <span class="label-input100">
                                 Bairro
                             </span>
-                            <input class="input100" name="bairro" placeholder="Bairro..." type="text">
+                            <input class="input100" name="bairro" id="bairro" placeholder="Bairro..." type="text">
                                 <span class="focus-input100">
                                 </span>
                             </input>
@@ -150,6 +150,15 @@
                                 Complemento
                             </span>
                             <input class="input100" name="Complemento" placeholder="Complemento..." type="text">
+                                <span class="focus-input100">
+                                </span>
+                            </input>
+                        </div>
+                        <div class="wrap-input100 validate-input" data-validate="Preencha esse campo">
+                            <span class="label-input100">
+                                Estado
+                            </span>
+                            <input class="input100" name="uf" id="uf" placeholder="Estado..." type="text">
                                 <span class="focus-input100">
                                 </span>
                             </input>
@@ -244,6 +253,8 @@
         <!--===============================================================================================-->
         <script src="js/main.js">
         </script>
+        <script src="js/buscar-cep.js"></script>
+        <script src="js/validar-cnpj.js"></script>
         <script src="js/jquery-3.3.1.min.js" type="text/javascript">
         </script>
         <script src="js/bootstrap.min.js" type="text/javascript">
