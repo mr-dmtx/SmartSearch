@@ -1,12 +1,10 @@
 <?php 
 
-	session_start();
+	
 
 	require $_SERVER['DOCUMENT_ROOT'] . '/php/cliente.php';
 
-	if(isset($_SESSION['logged'])){
-		header("location: ../login/login.php");
-	}
+	
 
 	$submit = $_POST['submit'] ?? null;
 	$aviso = '';
@@ -134,7 +132,7 @@
                                     Cadastrar
                                 </button>
                             </div>
-                            <a class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30" href="../login/login.html">
+                            <a class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30" href="../login/login.php">
                                 Você ja tem uma conta? Clique aqui
                                 <i class="fa fa-long-arrow-right m-l-5">
                                 </i>

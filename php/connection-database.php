@@ -1,7 +1,7 @@
 <?php 
 	try {
 		
-		$conexao = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '\bd\smart-search.db', "", "");
+		$conexao = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/bd/smart-search.db', "", "");
 
 		
 	} catch (PDOException $e) {
