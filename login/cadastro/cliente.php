@@ -82,6 +82,7 @@
                         </span>
                         <span style="color: red;">
                         	<?=$aviso?>
+                            <br>
                         </span>
                         <div class="wrap-input100 validate-input" data-validate="Preencha esse campo">
                             <span class="label-input100">
