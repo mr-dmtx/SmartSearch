@@ -4,7 +4,7 @@
 
 		session_start();
 
-		require $_SERVER['DOCUMENT_ROOT'] . '../php/cliente.php';
+		require '../php/cliente.php';
 
 		if(isset($_SESSION['email'])){
 			header("location: ../inicio/index.php");
@@ -19,7 +19,6 @@
 			if(loginCliente($email, md5($senha))){
 				$_SESSION['email'] = $email;
 				header("location: ../inicio/index.php");
-
 			}
 			else{
 				$aviso = "Email ou senha invalidos!";
