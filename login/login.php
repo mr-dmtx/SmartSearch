@@ -4,10 +4,10 @@
 
 		session_start();
 
-		require $_SERVER['DOCUMENT_ROOT'] . '/php/cliente.php';
+		require $_SERVER['DOCUMENT_ROOT'] . '../php/cliente.php';
 
-		if(isset($_SESSION['logged'])){
-			header("location: ../login/login.php");
+		if(isset($_SESSION['email'])){
+			header("location: ../inicio/index.php");
 		}
 
 		$submit = $_POST['submit'] ?? null;
@@ -18,7 +18,8 @@
 
 			if(loginCliente($email, md5($senha))){
 				$_SESSION['email'] = $email;
-				header("location: index.php");
+				header("location: ../inicio/index.php");
+
 			}
 			else{
 				$aviso = "Email ou senha invalidos!";
@@ -74,6 +75,7 @@
                     <form class="login100-form validate-form" action="#" method="post">
                         <span class="login100-form-title p-b-55">
                             Login
+
                         </span>
                         <span style="color: red; text-align: center;">
                         	<?=$aviso?>

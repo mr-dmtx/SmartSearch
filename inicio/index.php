@@ -1,0 +1,39 @@
+<?php 
+  try {
+    session_start();
+
+    require $_SERVER['DOCUMENT_ROOT'] . '/php/cliente.php';
+
+    if(!isset($_SESSION['email'])){
+      header("location: ../login/login.php");
+    }
+    
+  } catch (Exception $e) {
+    echo $e->getMessage();
+  }
+ ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Smart Search</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Smart Search</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-link" href="#">Features</a>
+      <a class="nav-link" href='../php/logout.php'>Sair</a>
+      
+    </div>
+  </div>
+</nav>
+</body>
+</html>

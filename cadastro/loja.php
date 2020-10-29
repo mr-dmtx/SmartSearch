@@ -198,16 +198,7 @@
                         </div>
                         <div class="flex-m w-full p-b-33">
                             <div class="contact100-form-checkbox">
-                                <input class="input-checkbox100" id="ckb1" name="remember-me" type="checkbox">
-                                    <label class="label-checkbox100" for="ckb1">
-                                        <span class="txt1">
-                                            Eu aceito
-                                            <a class="txt2 hov1" href="#">
-                                                Termos de uso
-                                            </a>
-                                        </span>
-                                    </label>
-                                </input>
+                                <input class="input-checkbox100" id="ckb1" name="remember-me" type="checkbox">                                </input>
                             </div>
                         </div>
                         <div class="container-login100-form-btn">
@@ -218,7 +209,7 @@
                                     Cadastrar
                                 </button>
                             </div>
-                            <a class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30" href="../login/login.html">
+                            <a class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30" href="../login/login.php">
                                 Você ja tem uma conta? Clique aqui
                                 <i class="fa fa-long-arrow-right m-l-5">
                                 </i>
