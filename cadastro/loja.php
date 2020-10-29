@@ -1,3 +1,59 @@
+<?php 
+    try {
+            require "../php/cliente.php";
+            require "../php/loja.php";
+
+            $submit = $_POST['submit'] ?? null;
+            $aviso = "";
+
+            if(!is_null($submit)){
+                $email = $_POST['email'];
+                if(verificarEmail($email)){
+                    $cnpj = $_POST['cnpj'];
+                    if(verificarCNPJ($cnpj)){
+                        $pass = md5($_POST['pass']);
+                        $repass = md5($_POST['repeat-pass']);
+                        if($pass == $repass){
+                            $name = $_POST['name'];
+                            $cep = $_POST['cep'];
+                            $endereco = $_POST['rua'];
+                            $numero = $_POST['numRua'] ?? "s/n";
+                            $cidade = $_POST['cidade'];
+                            $bairro = $_POST['bairro'];
+                            $complemento = $_POST['complemento'] ?? " ";
+                            $uf = $_POST['uf'];
+                            $tel = $_POST['celular'];
+                            $cnpj = str_replace("/", "", $cnpj);
+                            $cnpj = str_replace("-", "", $cnpj);
+                            $cep = str_replace("-", "", $cep);
+                            $cep = str_replace(".", "", $cep);
+                            $tel = str_replace("(", "", $cnpj);
+                            $tel = str_replace(")", "", $cnpj);
+                            $tel = str_replace("-", "", $cnpj);
+                            $tel = str_replace(" ", "", $cnpj);
+                            cadastrarCliente($name, $email, $pass);
+                            cadastrarLoja($cnpj, $cep, $tel, $email);
+                            cadastrarEnderecoLoja($cnpj, $endereco, $numero, $cidade, $bairro, $complemento, $uf);
+                            //header("location: ../login/login.php");
+                        }
+                        else{
+                            $aviso = "As senhas não conferem!";
+                        }                
+                    }
+                    else{
+                        $aviso = "Esse CNPJ já esta em uso!";
+                    }
+                }
+                else{
+                    $aviso = "Esse email já esta em uso!";
+                }
+            }
+        } catch (PDOException $e) {
+            $aviso = $e->getMessage();
+        }    
+    
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -51,9 +107,12 @@
                 <div class="login100-more" style="background-image: url('images/bg-01.jpg');">
                 </div>
                 <div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
-                    <form>
+                    <form method="post">
                         <span class="login100-form-title p-b-59">
                             Cadastre-se
+                        </span>
+                        <span style="color: red">
+                            <?=$aviso?>
                         </span>
                         <div class="wrap-input100 validate-input" data-validate="Preencha esse campo">
                             <span class="label-input100">
@@ -68,7 +127,7 @@
                             <span class="label-input100">
                                 CNPJ
                             </span>
-                            <input class="input100" id="cnpj" onblur="validarCNPJ(this.value)" name="cnpj" placeholder="CNPJ..." type="text">
+                            <input class="input100 validate-input" id="cnpj" onblur="validarCNPJ(this.value)" name="cnpj" placeholder="CNPJ..." type="text">
                                 <span class="focus-input100">
                                 </span>
                             </input>
@@ -149,7 +208,7 @@
                             <span class="label-input100">
                                 Complemento
                             </span>
-                            <input class="input100" name="Complemento" placeholder="Complemento..." type="text">
+                            <input class="input100" name="complemento" placeholder="Complemento..." type="text">
                                 <span class="focus-input100">
                                 </span>
                             </input>
@@ -205,7 +264,7 @@
                             <div class="wrap-login100-form-btn">
                                 <div class="login100-form-bgbtn">
                                 </div>
-                                <button class="login100-form-btn">
+                                <button type="submit" name="submit" value="submit" class="login100-form-btn">
                                     Cadastrar
                                 </button>
                             </div>

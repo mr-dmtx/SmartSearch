@@ -72,6 +72,8 @@ function validarCNPJ(cnpj) {
           return false;
            
     return true;
+
+    showValidate(this);
     
 }
 
@@ -119,7 +121,7 @@ function validarCNPJ(cnpj) {
                 check=false;
             }
         }
-
+        
         return check;
     });
 

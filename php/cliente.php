@@ -13,7 +13,7 @@
 
 		$v = $cmd->execute();
 
-		header("location: ../login/login.php");
+		
 
 	}
 

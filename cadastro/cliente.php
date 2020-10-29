@@ -16,7 +16,7 @@
 			if(verificarEmail($email)){
 				$name = $_POST['name'];
 				cadastrarCliente($name, $email, $pass);
-				$aviso = "Cadastro efetuado!";
+                header("location: ../login/login.php");
 			}
 			else{
 				$aviso = "Esse email já esta em uso!";
