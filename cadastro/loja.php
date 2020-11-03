@@ -25,16 +25,18 @@
                             $tel = $_POST['celular'];
                             $cnpj = str_replace("/", "", $cnpj);
                             $cnpj = str_replace("-", "", $cnpj);
+                            $cnpj = str_replace(".", "", $cnpj);
                             $cep = str_replace("-", "", $cep);
                             $cep = str_replace(".", "", $cep);
-                            $tel = str_replace("(", "", $cnpj);
-                            $tel = str_replace(")", "", $cnpj);
-                            $tel = str_replace("-", "", $cnpj);
-                            $tel = str_replace(" ", "", $cnpj);
+                            $tel = str_replace("(", "", $tel);
+                            $tel = str_replace(")", "", $tel);
+                            $tel = str_replace("-", "", $tel);
+                            $tel = str_replace(" ", "", $tel);
                             cadastrarCliente($name, $email, $pass);
                             cadastrarLoja($cnpj, $cep, $tel, $email);
                             cadastrarEnderecoLoja($cnpj, $endereco, $numero, $cidade, $bairro, $complemento, $uf);
-                            //header("location: ../login/login.php");
+                            header("location: ../login/login.php");
+
                         }
                         else{
                             $aviso = "As senhas não conferem!";
