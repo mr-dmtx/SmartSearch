@@ -147,7 +147,7 @@
                             <span class="label-input100">
                                 Digite a senha
                             </span>
-                            <input class="input100" name="pass" placeholder="*************" type="text">
+                            <input class="input100" name="pass" type="password" placeholder="*************" type="text">
                                 <span class="focus-input100">
                                 </span>
                             </input>
@@ -156,7 +156,7 @@
                             <span class="label-input100">
                                 Repita a senha
                             </span>
-                            <input class="input100" name="repeat-pass" placeholder="*************" type="text">
+                            <input class="input100" name="repeat-pass" type="password" placeholder="*************" type="text">
                                 <span class="focus-input100">
                                 </span>
                             </input>

@@ -32,6 +32,7 @@
 		}
 	}
 
+
 	function cadastrarEnderecoLoja($cnpj, $endereco, $numero, $cidade, $bairro, $complemento, $uf)
 	{
 		try {

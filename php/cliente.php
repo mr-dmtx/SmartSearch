@@ -12,9 +12,26 @@
 		$cmd->bindParam(':pass', $pass);
 
 		$v = $cmd->execute();
+	}
 
+	function atualizarCliente($name, $email, $pass, $id){
+		require 'connection-database.php';
+
+		$update = "UPDATE usuario(nm_email, nm_usuario, cd_senha) 
+					SET nm_email = ':email',
+						nm_usuario = ':name',
+						cd_senha = ':pass' 
+					WHERE cd_usuario = :id;";
+
+		$cmd = $conexao->prepare($update);
+
+		$cmd->bindParam(':email', $email);
+		$cmd->bindParam(':name', $name);
+		$cmd->bindParam(':pass', $pass);
+		$cmd->bindParam(':id', $id);
 		
-
+		$v = $cmd->execute();
+			
 	}
 
 	function verificarEmail($email)
@@ -65,5 +82,38 @@
 			echo "Erro reallizar login! " . $e->getMessage();
 		}
 
+
+	}
+
+	function codigoCliente($type)
+	{
+		require 'connection-database.php';
+
+		while ($rep) {
+			$codigo = mt_rand(1000, 9998);
+
+			if($type == 1 and $codigo%2 == 1){
+				$codigo += 1;
+			}
+			elseif ($type == 2 and $codigo%2 == 0) {
+				$codigo += 1;
+			}
+
+			$select = "SELECT cd_usuario FROM usuario WHERE cd_usuario == :id";
+
+			$cmd = $conexao->prepare($select);
+
+			$cmd->bindParam(":id", $codigo);
+
+			$cmd->execute();
+
+			$v = $cmd->fetchAll();
+
+			if(is_null($v[0]["cd_usuario"])){
+				$rep = false;
+			}
+		}
+
+		return $codigo;
 
 	}
