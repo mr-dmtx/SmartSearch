@@ -6,8 +6,9 @@
 
 		$insert = "INSERT INTO usuario(cd_usuario, nm_email, nm_usuario, cd_senha) values (:id, :email, :name, :pass);";
 
+		$id = codigoCliente($type);
 		$cmd = $conexao->prepare($insert);
-		$cmd->bindParam(':id', codigoCliente($type));
+		$cmd->bindParam(':id', $id);
 		$cmd->bindParam(':name', $name);
 		$cmd->bindParam(':email', $email);
 		$cmd->bindParam(':pass', $pass);
@@ -90,6 +91,8 @@
 	{
 		require 'connection-database.php';
 
+		$codigo = 0;
+		$rep = true;
 		while ($rep) {
 			$codigo = mt_rand(1000, 9998);
 
@@ -109,12 +112,29 @@
 			$cmd->execute();
 
 			$v = $cmd->fetchAll();
-
-			if(is_null($v[0]["cd_usuario"])){
+			if(count($v) == 0){
 				$rep = false;
 			}
+			
 		}
-
+		
 		return $codigo;
+
+	}
+
+	function getCodigo($email){
+		require 'connection-database.php';
+
+		$select = "select cd_usuario from usuario where nm_email = :email";
+
+		$cmd = $conexao->prepare($select);
+
+		$cmd->bindParam(':email', $email);
+
+		$v = $cmd->execute();
+
+		$v = $cmd->fetchAll();
+
+		return $v[0]["cd_usuario"];
 
 	}

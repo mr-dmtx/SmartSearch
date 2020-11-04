@@ -3,14 +3,48 @@
     session_start();
 
     require $_SERVER['DOCUMENT_ROOT'] . '/php/cliente.php';
-
+    require $_SERVER['DOCUMENT_ROOT'] . '/php/connection-database.php';
     if(!isset($_SESSION['email'])){
       header("location: ../login/login.php");
+    }
+
+    $select = "";
+    $id = $_SESSION['id'];
+    
+    if($id%2 == 0){
+
+      $select = "SELECT * FROM usuario WHERE cd_usuario = :id";
+    }
+
+    else{
+      $select = "select * from loja l join usuario u on u.cd_usuario = l.fk_usuario_loja join endereco e on e.fk_loja_endereco = l.cd_cnpj where cd_usuario = :id;";
+    }
+
+    $cmd = $conexao->prepare($select);
+
+    $cmd->bindParam(":id", $_SESSION['id']);
+
+    $dados = $cmd->execute();
+    
+    $dados = $cmd->fetchAll();
+
+    $op = $_POST['submit'] ?? null;
+
+    if(!is_null($op)){
+      switch ($op) {
+        case 'att':
+          
+          break;
+        case 'delete':
+
+          break;
+      }
     }
     
   } catch (Exception $e) {
     echo $e->getMessage();
   }
+  
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,21 +74,21 @@
   </div>
 </nav>
 <div class="container">
-<h1 class="text-center mt-3">Meu Perfil</h1>
-<form class="row justify-content-center">
+<h1 class="text-center mt-3">Meu Perfil #<?=$_SESSION['id']?></h1>
+<form class="row justify-content-center" method="POST">
   <div class="form-group col-md-6">
     <label>Nome:</label>
-    <input type="text" class="form-control" name="nome">
+    <input type="text" class="form-control" name="nome" value="<?=$dados[0]['nm_usuario']?>">
   </div>
   <div class="w-100"></div>
   <div class="form-group col-md-6">
     <label>Email:</label>
-    <input type="email" class="form-control" name="email">
+    <input type="email" class="form-control" name="email" value="<?=$dados[0]['nm_email']?>">
   </div>
   <div class="w-100"></div>
   <div class="form-group col-md-6">
     <label>Senha atual:</label>
-    <input type="password" class="form-control" name="senha-atual">
+    <input type="password" class="form-control" name="senha-atual" value="<?=$dados[0]['cd_senha']?>">
   </div>
   <div class="w-100"></div>
   <div class="form-group col-md-6">
@@ -66,6 +100,11 @@
     <label>Repita a nova senha:</label>
     <input type="password" class="form-control" name="re-senha-nova">
   </div>
+  <?php 
+    if($_SESSION['id']%2 == 1){
+      require 'loja-form.php';
+    }
+   ?>
   <div class="w-100"></div>
     <button type="submit" class="btn btn-primary col-md-5 mb-2" name="submit" value="att">Atualizar dados</button>
     <div class="w-100"></div>

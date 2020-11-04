@@ -18,6 +18,7 @@
 
 			if(loginCliente($email, md5($senha))){
 				$_SESSION['email'] = $email;
+                $_SESSION['id'] = getCodigo($email);
 				header("location: ../inicio/index.php");
 			}
 			else{
@@ -26,7 +27,7 @@
 		}
 		
 	} catch (Throwable $e) {
-		$aviso = "Erro ao realizar autenticação!" . $e->getMessage(); 
+		$aviso = "Erro ao realizar autenticação! " . $e->getMessage(); 
 	}
 	
 ?>
