@@ -1,12 +1,13 @@
 <?php 
 
-	function cadastrarCliente($name, $email, $pass)
+	function cadastrarCliente($name, $email, $pass, $type)
 	{
 		require 'connection-database.php';
 
-		$insert = "INSERT INTO usuario(nm_email, nm_usuario, cd_senha) values (:email, :name, :pass);";
+		$insert = "INSERT INTO usuario(cd_usuario, nm_email, nm_usuario, cd_senha) values (:id, :email, :name, :pass);";
 
 		$cmd = $conexao->prepare($insert);
+		$cmd->bindParam(':id', codigoCliente($type));
 		$cmd->bindParam(':name', $name);
 		$cmd->bindParam(':email', $email);
 		$cmd->bindParam(':pass', $pass);

@@ -32,7 +32,7 @@
                             $tel = str_replace(")", "", $tel);
                             $tel = str_replace("-", "", $tel);
                             $tel = str_replace(" ", "", $tel);
-                            cadastrarCliente($name, $email, $pass);
+                            cadastrarCliente($name, $email, $pass, 2);
                             cadastrarLoja($cnpj, $cep, $tel, $email);
                             cadastrarEnderecoLoja($cnpj, $endereco, $numero, $cidade, $bairro, $complemento, $uf);
                             header("location: ../login/login.php");

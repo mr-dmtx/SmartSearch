@@ -15,7 +15,7 @@
 			$email = $_POST['email'];
 			if(verificarEmail($email)){
 				$name = $_POST['name'];
-				cadastrarCliente($name, $email, $pass);
+				cadastrarCliente($name, $email, $pass, 1);
                 header("location: ../login/login.php");
 			}
 			else{
