@@ -7,7 +7,7 @@
     if(!isset($_SESSION['email'])){
       header("location: ../login/login.php");
     }
-
+    $aviso = '';
     $select = "";
     $id = $_SESSION['id'];
     
@@ -31,11 +31,29 @@
     $op = $_POST['submit'] ?? null;
 
     if(!is_null($op)){
+      $email = $_SESSION['email'];
       switch ($op) {
         case 'att':
-          
+          if ($id%2 == 0) {
+            
+          }
+
           break;
         case 'delete':
+          try {
+              $delete = "DELETE FROM usuario WHERE cd_usuario = :id";  
+
+              $cmd = $conexao->prepare($delete);
+
+              $cmd->bindValue(":id", $_SESSION['id']);
+
+              $cmd->execute();
+              
+              header("location: ../php/logout.php"); 
+
+          } catch (PDOException $e) {
+              $aviso = "Erro ao deletar conta. ". $e->getMessage();
+          }
 
           break;
       }
@@ -44,7 +62,7 @@
   } catch (Exception $e) {
     echo $e->getMessage();
   }
-  
+
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,7 +106,7 @@
   <div class="w-100"></div>
   <div class="form-group col-md-6">
     <label>Senha atual:</label>
-    <input type="password" class="form-control" name="senha-atual" value="<?=$dados[0]['cd_senha']?>">
+    <input type="password" class="form-control" name="senha-atual">
   </div>
   <div class="w-100"></div>
   <div class="form-group col-md-6">
