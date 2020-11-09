@@ -1,10 +1,6 @@
 <?php 
 
-	
-
 	require $_SERVER['DOCUMENT_ROOT'] . '/php/cliente.php';
-
-	
 
 	$submit = $_POST['submit'] ?? null;
 	$aviso = '';
