@@ -49,8 +49,10 @@ try {
         $senhaNova = $_POST['senha-nova'];
         $reSenhaNova = $_POST['re-senha-nova'];
         $nome = $_POST['nome'];
-        if($senhaNova == $reSenhaNova){
-          $senha = md5($senhaNova);
+        if($senhaNova != ""){
+          if($senhaNova == $reSenhaNova){
+            $senha = md5($senhaNova);
+          }  
         }
 
         $update = "UPDATE usuario SET nm_email = ?, cd_senha = ?, nm_usuario = ? WHERE cd_usuario = ?";

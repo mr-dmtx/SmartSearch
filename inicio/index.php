@@ -34,7 +34,7 @@
       <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
       <a class="nav-link" href="../perfil/index.php"> Perfil</a>
       <a class="nav-link" href='../php/logout.php'>Sair</a>
-      <form class="form-inline my-2 my-lg-0" method="get" action="procurar/index.php">
+      <form class="form-inline my-2 my-lg-0" method="get" action="../procurar/index.php">
         <input class="form-control mr-sm-2" type="search" name="termo" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
