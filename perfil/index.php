@@ -66,18 +66,26 @@ try {
 
         if($_SESSION['id']%2 == 1){
 
-          $update = "UPDATE endereco SET cd_cep = ?, nm_endereco = ?, cd_numero_endereco = ?, nm_cidade = ?, nm_bairro = ?, cd_complemento = ?, sg_uf = ? from endereco join usuario u on u.cd_usuario = l.fk_usuario_loja join loja l on e.fk_loja_endereco = l.cd_cnpj where cd_usuario = ?";
+          $update = "UPDATE endereco SET nm_endereco = ?, cd_numero_endereco = ?, nm_cidade = ?, nm_bairro = ?, cd_complemento = ?, sg_uf = ? where cd_loja in (select cd_loja from endereco e join usuario u on u.cd_usuario = l.fk_usuario_loja join loja l on e.fk_loja_endereco = l.cd_cnpj where u.cd_usuario = ?);";
 
-          $cmd->prepare($update);
+          $cmd = $conexao->prepare($update);
+
+          $cmd->bindParam(1, $_POST['rua']);
+          $cmd->bindParam(2, $_POST['numero']);
+          $cmd->bindParam(3, $_POST['cidade']);
+          $cmd->bindParam(4, $_POST['bairro']);
+          $cmd->bindParam(5, $_POST['complemento']);
+          $cmd->bindParam(6, $_POST['uf']);
+          $cmd->bindParam(7, $_SESSION['id']);
+
+          $cmd->execute();
+
+          $update = "UPDATE loja SET cd_cep = ? WHERE fk_usuario_loja = ?";
+
+          $cmd = $conexao->prepare($update);
 
           $cmd->bindParam(1, $_POST['cep']);
-          $cmd->bindParam(2, $_POST['rua']);
-          $cmd->bindParam(3, $_POST['numero']);
-          $cmd->bindParam(4, $_POST['cidade']);
-          $cmd->bindParam(5, $_POST['bairro']);
-          $cmd->bindParam(6, $_POST['complemento']);
-          $cmd->bindParam(7, $_POST['uf']);
-          $cmd->bindParam(8, $_SESSION['id']);
+          $cmd->bindParam(2, $_SESSION['id']);
 
           $cmd->execute();
         }
