@@ -3,12 +3,27 @@
     session_start();
 
     require $_SERVER['DOCUMENT_ROOT'] . '/php/cliente.php';
+    require $_SERVER['DOCUMENT_ROOT'] . '/php/connection-database.php';
+
+    $aviso = "";
 
     if(!isset($_SESSION['email'])){
       header("location: ../login/login.php");
     }
 
-    
+    $pesquisa = preg_replace('/[^[:alpha:]_]/', '', $_GET['termo']);
+
+    $select = "select * from usuario u join loja l on l.fk_usuario_loja = u.cd_usuario join endereco e on e.fk_loja_endereco = l.cd_cnpj where u.cd_usuario%2 = 1 and u.nm_usuario like '%$pesquisa%'";
+
+    $cmd = $conexao->prepare($select);
+
+    $v = $cmd->execute();
+
+    $v = $cmd->fetchAll();
+
+    if(!$v){
+      $aviso = "Nenhum resultado encontrado para ". $_GET['termo']."!";
+    }
 
     
   } catch (Exception $e) {
@@ -30,21 +45,40 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-      <a class="nav-link" href="../perfil/index.php"> Perfil</a>
-      <a class="nav-link" href='../php/logout.php'>Sair</a>
-      <form class="form-inline my-2 my-lg-0" method="get" action="procurar/index.php">
+    <ul class="navbar-nav mr auto">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>  
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../perfil/index.php"> Perfil</a>  
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href='../php/logout.php'>Sair</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" method="get" action="../procurar/index.php">
         <input class="form-control mr-sm-2" type="search" name="termo" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
-    </div>
   </div>
 </nav>
 <div class="container">
-  <span>
-    
-  </span>
+  <p><?=$aviso?></p>
+  <div class="card-group">
+  <?php 
+    foreach ($v as $loja) {
+      ?>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title"><?=$loja['nm_usuario']?></h5>
+          <h6 class="card-subtitle mb-2 text-muted"><?=$loja['nm_email']?> | <?=$loja['cd_telefone']?></h6>
+          <p class="card-text"><?=$loja['nm_endereco']?>, <?=$loja['cd_numero_endereco']?>, <?=$loja['cd_complemento']?>, <?=$loja['nm_bairro']?>, <?=$loja['nm_cidade']?>, <?=$loja['sg_uf']?></p>
+        </div>
+      </div>
+      <?php 
+    }
+   ?>
+   </div>
 </div>
 </body>
 </html>
