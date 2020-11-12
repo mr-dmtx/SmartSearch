@@ -118,10 +118,7 @@ try {
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Smart Search</title>
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+ <?php include '../php/links-head.php'; ?>
 </head>
 <body>
   <style type="text/css">
@@ -129,19 +126,7 @@ try {
       font-weight: 700;
     }
   </style>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Smart Search</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link active" href="../inicio">Home <span class="sr-only">(current)</span></a>
-        <a class="nav-link" href="../perfil/index.php"> Perfil</a>
-        <a class="nav-link" href='../php/logout.php'>Sair</a>
-      </div>
-    </div>
-  </nav>
+  <?php include '../php/nav-bar.php'; ?>
   <div class="container">
     <h1 class="text-center mt-3">Meu Perfil #<?=$_SESSION['id']?></h1>
     <span class="text-center" style="color: red">

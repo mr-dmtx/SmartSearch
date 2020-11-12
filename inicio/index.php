@@ -1,51 +1,51 @@
 <?php 
-  try {
-    session_start();
+try {
+  session_start();
+  require $_SERVER['DOCUMENT_ROOT'] . '/php/connection-database.php';
+  require $_SERVER['DOCUMENT_ROOT'] . '/php/cliente.php';
 
-    require $_SERVER['DOCUMENT_ROOT'] . '/php/cliente.php';
-
-    if(!isset($_SESSION['email'])){
-      header("location: ../login/login.php");
-    }
-
-    
-
-    
-  } catch (Exception $e) {
-    echo $e->getMessage();
+  if(!isset($_SESSION['email'])){
+    header("location: ../login/login.php");
   }
- ?>
+
+
+  $select = "select * from usuario u join loja l on l.fk_usuario_loja = u.cd_usuario join endereco e on e.fk_loja_endereco = l.cd_cnpj where u.cd_usuario%2 = 1 limit 6;";
+
+  $cmd = $conexao->prepare($select);
+
+  $cmd->execute();
+
+  $v = $cmd->fetchAll();
+
+} catch (Exception $e) {
+  echo $e->getMessage();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Smart Search</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+	<?php include '../php/links-head.php'; ?>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Smart Search</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-      <a class="nav-link" href="../perfil/index.php"> Perfil</a>
-      <a class="nav-link" href='../php/logout.php'>Sair</a>
-      <form class="form-inline my-2 my-lg-0" method="get" action="../procurar/index.php">
-        <input class="form-control mr-sm-2" type="search" name="termo" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+	<?php include '../php/nav-bar.php'; ?>
+  <div class="container mt-5">
+    <div class="card-group">
+      <?php 
+      foreach ($v as $loja) {
+        ?>
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title"><?=$loja['nm_usuario']?></h5>
+            <h6 class="card-subtitle mb-2 text-muted"><?=$loja['nm_email']?> | <?=$loja['cd_telefone']?></h6>
+            <p class="card-text"><?=$loja['nm_endereco']?>, <?=$loja['cd_numero_endereco']?>, <?=$loja['cd_complemento']?>, <?=$loja['nm_bairro']?>, <?=$loja['nm_cidade']?>, <?=$loja['sg_uf']?></p>
+          </div>
+        </div>
+        <?php 
+      }
+      ?>
     </div>
   </div>
-</nav>
-<div class="container">
-  <span>
-    
-  </span>
-</div>
+  
 </body>
 </html>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

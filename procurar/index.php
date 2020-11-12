@@ -22,7 +22,7 @@
     $v = $cmd->fetchAll();
 
     if(!$v){
-      $aviso = "Nenhum resultado encontrado para ". $_GET['termo']."!";
+      $aviso = "<b>Nenhum resultado encontrado para ". $_GET['termo']."!</b>";
     }
 
     
@@ -33,35 +33,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Smart Search</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+	<?php include '../php/links-head.php'; ?>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Smart Search</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <ul class="navbar-nav mr auto">
-      <li class="nav-item">
-        <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>  
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="../perfil/index.php"> Perfil</a>  
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href='../php/logout.php'>Sair</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0" method="get" action="../procurar/index.php">
-        <input class="form-control mr-sm-2" type="search" name="termo" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
+	<?php include '../php/nav-bar.php'; ?>
 <div class="container">
   <p><?=$aviso?></p>
   <div class="card-group">
