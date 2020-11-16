@@ -54,7 +54,7 @@
       <div class="card" style="width: 18rem;">
         <div class="card-body">
           <h5 class="card-title"><?=$prod['nm_produto']?></h5>
-          <h6 class="card-subtitle mb-2 text-muted"><?=$prod['nm_usuario']?> | R$ <?=$prod['vl_produto']?></h6>
+          <h6 class="card-subtitle mb-2 text-muted"><a href="../catalogo/loja.php?loja=<?=$prod['cd_usuario']?>"><?=$prod['nm_usuario']?></a> | R$ <?=$prod['vl_produto']?></h6>
           <p class="card-text"><?=$prod['ds_produto']?></p>
         </div>
       </div>

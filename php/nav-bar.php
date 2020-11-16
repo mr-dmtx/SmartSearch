@@ -17,6 +17,9 @@
         <li class="nav-item">
           <a class="nav-link" href="../produtos">Meus Produtos</a>  
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../catalogo/loja.php?loja=<?=$_SESSION['id']?>">Meu Catalogo</a>  
+        </li>
         <?php
       }
       ?>

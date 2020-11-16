@@ -8,6 +8,32 @@ try {
     header("location: ../login/login.php");
   }
 
+  $idLoja = $_GET['loja'] ?? null;
+
+  if($idLoja%2 == 0 and is_null($idLoja)){
+    header("location: ../login/login.php"); 
+  }
+
+  $infoLoja = "select * from usuario join loja on fk_usuario_loja = cd_usuario join endereco on fk_loja_endereco = loja.cd_cnpj where cd_usuario = ?;";
+
+  $cmd = $conexao->prepare($infoLoja);
+
+  $cmd->bindParam(1, $idLoja);
+
+  $cmd->execute();
+
+  $info = $cmd->fetch();
+
+  $prodsLoja = "select * from usuario join loja on fk_usuario_loja = cd_usuario join produto on fk_loja_produto = cd_cnpj where cd_usuario = ?;";
+
+  $cmd = $conexao->prepare($prodsLoja);
+
+  $cmd->bindParam(1, $idLoja);
+
+  $cmd->execute();
+
+  $prodsLoja = $cmd->fetchAll();
+
 } catch (Exception $e) {
   echo $e->getMessage();
 }
@@ -22,10 +48,32 @@ try {
   <div class="container mt-5">
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
-        <h1 class="display-4">Fluid jumbotron</h1>
-        <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+        <h1 class="display-4"><?=$info['nm_usuario']?></h1>
+        <p class="lead"><?=$info['nm_endereco']?>, <?=$info['cd_numero_endereco']?>, <?=$info['cd_complemento']?>, <?=$info['nm_bairro']?>, <?=$info['nm_cidade']?>, <?=$info['sg_uf']?></p>
+        <p class="lead">Email: <a href="mailto: <?=$info['nm_email']?> "><?=$info['nm_email']?></a> | Telefone: <?=$info['cd_telefone']?></p>
       </div>
     </div>
+    <div class="row row-cols-sm-2 row-cols-md-3">
+    <?php 
+        if($prodsLoja){
+          //var_dump($prodsLoja);
+          foreach ($prodsLoja as $produto) {
+            ?>
+            <div class="col mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title"><?=$produto['nm_produto']?></h5>
+                  <h6 class="card-subtitle mb-2 text-muted">R$ <?=$produto['vl_produto']?> | <?=$produto['nm_usuario']?></h6>
+                  <p class="card-text"><?=$produto['ds_produto']?></p>
+                </div>
+              </div>
+              </div>
+            <?php 
+          }
+        }
+
+     ?>
+     </div>
   </div>
 </body>
 </html>
