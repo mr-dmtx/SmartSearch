@@ -32,7 +32,7 @@ try {
   <div class="container mt-5">
     <div class="row">
       <div class="col-12">
-        <a href="produtos/adicionar-produto.php" class="btn btn-primary mb-5">Adicionar novo produto ao catalogo</a>
+        <a href="/produtos/adicionar-produto.php" class="btn btn-primary mb-5">Adicionar novo produto ao catalogo</a>
       </div>
     </div>
     <div class="row row-cols-sm-2 row-cols-md-3">

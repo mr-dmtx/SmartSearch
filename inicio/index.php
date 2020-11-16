@@ -17,6 +17,14 @@ try {
 
   $v = $cmd->fetchAll();
 
+  $selectProdutos = "select * from usuario join loja on fk_usuario_loja = cd_usuario join produto on fk_loja_produto = loja.cd_cnpj where produto.nm_produto like '%%' and produto.ds_produto like '%%';";
+
+    $cmd = $conexao->prepare($selectProdutos);
+
+    $cmd->execute();
+
+    $vProd = $cmd->fetchAll();
+
 } catch (Exception $e) {
   echo $e->getMessage();
 }
@@ -30,17 +38,45 @@ try {
 	<?php include '../php/nav-bar.php'; ?>
   <div class="container mt-5">
     <div class="card-group">
+  <?php 
+    $i = 0;
+    foreach ($vProd as $prod) {
+      if($i == 4){
+        echo "<div class='w-100'></div>";
+        $i = 0;
+      }
+      ?>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title"><?=$prod['nm_produto']?></h5>
+          <h6 class="card-subtitle mb-2 text-muted"><a href="../catalogo/loja.php?loja=<?=$prod['cd_usuario']?>"><?=$prod['nm_usuario']?></a> | R$ <?=$prod['vl_produto']?></h6>
+          <p class="card-text"><?=$prod['ds_produto']?></p>
+        </div>
+      </div>
       <?php 
+      $i+=1;
+    }
+   ?>
+   </div>
+   <hr>
+    <div class="card-group">
+      <?php 
+
       foreach ($v as $loja) {
+        if($i == 4){
+        echo "<div class='w-100'></div>";
+        $i = 0;
+      }
         ?>
         <div class="card" style="width: 18rem;">
           <div class="card-body">
-            <h5 class="card-title"><?=$loja['nm_usuario']?></h5>
+            <a href="../catalogo/loja.php?loja=<?=$loja['cd_usuario']?>"><h5 class="card-title"><?=$loja['nm_usuario']?></h5></a>
             <h6 class="card-subtitle mb-2 text-muted"><?=$loja['nm_email']?> | <?=$loja['cd_telefone']?></h6>
             <p class="card-text"><?=$loja['nm_endereco']?>, <?=$loja['cd_numero_endereco']?>, <?=$loja['cd_complemento']?>, <?=$loja['nm_bairro']?>, <?=$loja['nm_cidade']?>, <?=$loja['sg_uf']?></p>
           </div>
         </div>
         <?php 
+        $i+= 1;
       }
       ?>
     </div>

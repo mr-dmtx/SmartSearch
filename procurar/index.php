@@ -13,15 +13,23 @@
 
     $pesquisa = preg_replace('/[^[:alpha:]_]/', '', $_GET['termo']);
 
-    $select = "select * from usuario u join loja l on l.fk_usuario_loja = u.cd_usuario join endereco e on e.fk_loja_endereco = l.cd_cnpj where u.cd_usuario%2 = 1 and u.nm_usuario like '%$pesquisa%'";
+    $selectLoja = "select * from usuario u join loja l on l.fk_usuario_loja = u.cd_usuario join endereco e on e.fk_loja_endereco = l.cd_cnpj where u.cd_usuario%2 = 1 and u.nm_usuario like '%$pesquisa%'";
 
-    $cmd = $conexao->prepare($select);
+    $cmd = $conexao->prepare($selectLoja);
 
-    $v = $cmd->execute();
+    $vLoja = $cmd->execute();
 
-    $v = $cmd->fetchAll();
+    $vLoja = $cmd->fetchAll();
 
-    if(!$v){
+    $selectProdutos = "select * from usuario join loja on fk_usuario_loja = cd_usuario join produto on fk_loja_produto = loja.cd_cnpj where produto.nm_produto like '%$pesquisa%' and produto.ds_produto like '%$pesquisa%';";
+
+    $cmd = $conexao->prepare($selectProdutos);
+
+    $cmd->execute();
+
+    $vProd = $cmd->fetchAll();
+
+    if(!$vLoja){
       $aviso = "<b>Nenhum resultado encontrado para ". $_GET['termo']."!</b>";
     }
 
@@ -41,11 +49,27 @@
   <p><?=$aviso?></p>
   <div class="card-group">
   <?php 
-    foreach ($v as $loja) {
+    foreach ($vProd as $prod) {
       ?>
       <div class="card" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title"><?=$loja['nm_usuario']?></h5>
+          <h5 class="card-title"><?=$prod['nm_produto']?></h5>
+          <h6 class="card-subtitle mb-2 text-muted"><?=$prod['nm_usuario']?> | R$ <?=$prod['vl_produto']?></h6>
+          <p class="card-text"><?=$prod['ds_produto']?></p>
+        </div>
+      </div>
+      <?php 
+    }
+   ?>
+   </div>
+   <hr>
+  <div class="card-group">
+  <?php 
+    foreach ($vLoja as $loja) {
+      ?>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <a href="../catalogo/loja.php?loja=<?=$loja['cd_usuario']?>"><h5 class="card-title"><?=$loja['nm_usuario']?></h5></a>
           <h6 class="card-subtitle mb-2 text-muted"><?=$loja['nm_email']?> | <?=$loja['cd_telefone']?></h6>
           <p class="card-text"><?=$loja['nm_endereco']?>, <?=$loja['cd_numero_endereco']?>, <?=$loja['cd_complemento']?>, <?=$loja['nm_bairro']?>, <?=$loja['nm_cidade']?>, <?=$loja['sg_uf']?></p>
         </div>

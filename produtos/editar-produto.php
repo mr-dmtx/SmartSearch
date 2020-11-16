@@ -19,13 +19,37 @@ try {
     if(!is_null($produto) and !is_null($descricao_prod) and !is_null($valor_prod)){
      if($submit == "edit"){
       //update
+      $update = "UPDATE produto SET nm_produto = ?, ds_produto = ?, vl_produto = ? WHERE cd_produto = ? and fk_loja_produto in (SELECT cd_cnpj FROM loja where fk_usuario_loja = ?);";
+
+      $cmd = $conexao->prepare($update);
+
+      $cmd->bindParam(1, $produto);
+      $cmd->bindParam(2, $descricao_prod);
+      $cmd->bindParam(3, $valor_prod);
+      $cmd->bindParam(4, $_GET['p']);
+      $cmd->bindParam(5, $_SESSION['id']);
+
+      $cmd->execute();
+
+      header('Location: index.php');
+      
      }
      elseif ($submit == "delete") {
        //delete
+      $delete = "delete from produto where cd_produto = ? and fk_loja_produto in (SELECT cd_cnpj FROM loja where fk_usuario_loja = ?);";
+
+      $cmd = $conexao->prepare($delete);
+
+      $cmd->bindParam(1, $_GET['p']);
+      $cmd->bindParam(2, $_SESSION['id']);
+
+      $cmd->execute();
+
+      header('Location: index.php');
      }
     }
   }
-  else{
+  
     $select = "select * from produto p join loja l on l.cd_cnpj = p.fk_loja_produto join usuario u on u.cd_usuario = l.fk_usuario_loja where u.cd_usuario = ? and cd_produto = ?;";
 
     $cmd = $conexao->prepare($select);
@@ -36,7 +60,7 @@ try {
     $cmd->execute();
 
     $v = $cmd->fetch();
-  }
+  
   
 
 } catch (Exception $e) {
@@ -51,21 +75,21 @@ try {
 <body>
 	<?php include '../php/nav-bar.php'; ?>
   <div class="container mt-5">
-    <h2 class="text-center mb-3">Editar </h2>
+    <h2 class="text-center mb-3">Editar Produto</h2>
     <form class="row justify-content-center" method="POST">
       <div class="form-group col-md-6">
         <label>Nome:</label>
-        <input type="text" class="form-control" name="nome_produto" value="<?=$v['nm_produto']?>">
+        <input type="text" class="form-control" name="nome_produto" value="<?=$v['nm_produto']?>" required="">
       </div>
       <div class="w-100"></div>
       <div class="form-group col-md-6">
         <label>Descrição</label>
-        <textarea class="form-control" name="descricao_prod" maxlength="100"><?=$v['ds_produto']?></textarea>
+        <textarea class="form-control" name="descricao_prod" maxlength="100" required=""><?=$v['ds_produto']?></textarea>
       </div>
       <div class="w-100"></div>
       <div class="form-group col-md-6">
         <label>Preço:</label>
-        <input type="number" class="form-control" name="preco_produto" id="preco_produto" step="any" value="<?=$v['vl_produto']?>">
+        <input type="number" class="form-control" name="preco_produto" id="preco_produto" step="any" value="<?=$v['vl_produto']?>" required="">
       </div>
       <div class="w-100"></div>
        <button type="submit" class="btn btn-warning col-5 mb-2 font-weight-bold" name="submit" value="edit">Editar produto</button>

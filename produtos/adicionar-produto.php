@@ -35,7 +35,6 @@ try {
       $cmd->bindParam(2, $valor_prod);
       $cmd->bindParam(3, $descricao_prod);
       $cmd->bindParam(4, $v['cd_cnpj']);
-      echo "adasd";
       $cmd->execute();
     }
     
