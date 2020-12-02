@@ -21,7 +21,7 @@
 
     $vLoja = $cmd->fetchAll();
 
-    $selectProdutos = "select * from usuario join loja on fk_usuario_loja = cd_usuario join produto on fk_loja_produto = loja.cd_cnpj where produto.nm_produto like '%$pesquisa%' and produto.ds_produto like '%$pesquisa%';";
+    $selectProdutos = "select * from usuario join loja on fk_usuario_loja = cd_usuario join produto on fk_loja_produto = loja.cd_cnpj where produto.nm_produto like '%$pesquisa%' or produto.ds_produto like '%$pesquisa%';";
 
     $cmd = $conexao->prepare($selectProdutos);
 

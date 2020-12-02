@@ -9,6 +9,8 @@ try {
     header("location: ../login/login.php");
   }
 
+  $aviso = "";
+
   $select = "select cd_cnpj from loja l join usuario u on l.fk_usuario_loja = u.cd_usuario where u.cd_usuario = ?";
 
   $cmd = $conexao->prepare($select);
@@ -36,6 +38,11 @@ try {
       $cmd->bindParam(3, $descricao_prod);
       $cmd->bindParam(4, $v['cd_cnpj']);
       $cmd->execute();
+
+      echo "<script>alert('Produto adicionado com sucesso!');</script>";
+    }
+    else{
+      $aviso = "<span style='color: red'>Campos vázios</span>";
     }
     
   }
@@ -54,20 +61,21 @@ try {
 	<?php include '../php/nav-bar.php'; ?>
   <div class="container mt-5">
     <h2 class="text-center mb-3">Adicionar novo produto</h2>
+    <?=$aviso?>
     <form class="row justify-content-center" method="POST">
       <div class="form-group col-md-6">
         <label>Nome:</label>
-        <input type="text" class="form-control" name="nome_produto">
+        <input type="text" class="form-control" name="nome_produto" required="">
       </div>
       <div class="w-100"></div>
       <div class="form-group col-md-6">
         <label>Descrição</label>
-        <textarea class="form-control" name="descricao_prod" maxlength="100"></textarea>
+        <textarea class="form-control" name="descricao_prod" maxlength="100" required=""></textarea>
       </div>
       <div class="w-100"></div>
       <div class="form-group col-md-6">
         <label>Preço:</label>
-        <input type="number" class="form-control" name="preco_produto" id="preco_produto" step="any">
+        <input type="number" class="form-control" name="preco_produto" id="preco_produto" step="any" required="">
       </div>
       <div class="w-100"></div>
        <button type="submit" class="btn btn-primary col-md-5 mb-2" name="submit" value="add">Adicionar produto</button>

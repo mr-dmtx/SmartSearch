@@ -8,7 +8,7 @@ try {
   if(!isset($_SESSION['email']) or $_SESSION['id'] % 2 == 0){
     header("location: ../login/login.php");
   }
-
+  $aviso = "";
   $submit = $_POST['submit'] ?? null;
 
   if(!is_null($submit)){
@@ -31,7 +31,9 @@ try {
 
       $cmd->execute();
 
-      header('Location: index.php');
+      echo "<script>alert('Produto atualizado com sucesso!')</script>";
+
+      //header('Location: index.php');
       
      }
      elseif ($submit == "delete") {
@@ -44,9 +46,15 @@ try {
       $cmd->bindParam(2, $_SESSION['id']);
 
       $cmd->execute();
+      echo "<script>if(confirm('Produto deletado com sucesso!')){
+        window.location.href = 'index.php';
 
-      header('Location: index.php');
+      }</script>";
+      
      }
+    }
+    else{
+      $aviso = "<span style='color: red'>Campos vázios</span>";
     }
   }
   
